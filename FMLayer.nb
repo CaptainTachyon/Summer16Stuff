@@ -1,0 +1,337 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     12169,        328]
+NotebookOptionsPosition[     11354,        295]
+NotebookOutlinePosition[     11694,        310]
+CellTagsIndexPosition[     11651,        307]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Ferromagnetic Layer", "Subsection",
+ CellChangeTimes->{{3.675075692797677*^9, 3.6750756958951983`*^9}}],
+
+Cell["\<\
+Numerically finds Fraunhofer pattern given field in y direction and constant, \
+single-domain magnetization in y direction. Used methods proposed by Blamire \
+et al.\
+\>", "Text",
+ CellChangeTimes->{{3.6750756991930523`*^9, 3.6750757598686743`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Initialize variables", "Subsubsection",
+ CellChangeTimes->{{3.6750757696826344`*^9, 3.6750757761483297`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"M", "=", "3"}], ";", " ", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"Saturation", " ", "Magnetization"}], ",", " ", 
+    RowBox[{"ignore", " ", "hysteretic", " ", "effects"}]}], "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"bmvector", "=", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "M", ",", "0"}], "}"}]}], ";", " ", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"Magnetization", " ", "in", " ", "y", " ", "direction"}], ",", 
+    " ", 
+    RowBox[{"unit", " ", "magnitude"}]}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"bhvector", "[", "H_", "]"}], ":=", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "H", ",", "0"}], "}"}]}], ";", " ", 
+  RowBox[{"(*", 
+   RowBox[{"Applied", " ", "Field", " ", "in", " ", "y", " ", "direction"}], 
+   "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"bvecnet", "[", "H_", "]"}], ":=", 
+   RowBox[{"bmvector", "+", 
+    RowBox[{"bhvector", "[", "H", "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"gridsize", "=", "5"}], ";", " ", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{
+     "How", " ", "big", " ", "an", " ", "array", " ", "to", " ", "work", " ", 
+      "with"}], ",", " ", 
+     RowBox[{"for", " ", "now", " ", "treating", " ", "as", " ", "square"}]}],
+     "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"bmatrix", "[", "H_", "]"}], ":=", 
+    RowBox[{"Table", "[", 
+     RowBox[{
+      RowBox[{"bvecnet", "[", "H", "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "1", ",", "gridsize"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"j", ",", "1", ",", "gridsize"}], "}"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"\[Phi]matrix", "[", "H_", "]"}], ":=", 
+    RowBox[{"Table", "[", 
+     RowBox[{
+      RowBox[{"Cross", "[", 
+       RowBox[{
+        RowBox[{"bvecnet", "[", "H", "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"0", ",", "0", ",", "1"}], "}"}]}], "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "1", ",", "gridsize"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"j", ",", "1", ",", "gridsize"}], "}"}]}], "]"}]}], ";"}], 
+  " "}]}], "Input",
+ CellChangeTimes->{{3.6750104066199656`*^9, 3.67501048921719*^9}, {
+   3.675010532987553*^9, 3.6750106544487314`*^9}, {3.6750113218747077`*^9, 
+   3.6750113234141026`*^9}, 3.6750114627564244`*^9, {3.6750116334553385`*^9, 
+   3.675011633932147*^9}, {3.675034723204784*^9, 3.6750347338675365`*^9}, {
+   3.6750732536418433`*^9, 3.6750732914351172`*^9}, 3.6750756844260435`*^9, {
+   3.675076040582413*^9, 3.6750760436186256`*^9}, {3.675076119270255*^9, 
+   3.6750762118184385`*^9}, {3.675077071859103*^9, 3.6750770722966127`*^9}, {
+   3.675077136436885*^9, 3.6750771369838233`*^9}, {3.675077179119689*^9, 
+   3.675077179447873*^9}, {3.67507848799787*^9, 3.6750784888571997`*^9}, {
+   3.6750785407582245`*^9, 3.6750785417894864`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"dx", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"1", "/", "gridsize"}], ",", "0", ",", "0"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"dy", "=", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", 
+     RowBox[{"1", "/", "gridsize"}], ",", "0"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"dz", "=", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0", ",", 
+     RowBox[{"1", "/", "gridsize"}]}], "}"}]}], ";", " ", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"Shouldn", "'"}], "t", " ", "actually", " ", "need", " ", 
+    "this"}], "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.6750106739664097`*^9, 3.675010683639019*^9}, {
+  3.6750779102720776`*^9, 3.675077918949398*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Define the phase-dependant current", "Subsubsection",
+ CellChangeTimes->{{3.6750757856948366`*^9, 3.675075802285985*^9}}],
+
+Cell["\<\
+Right now, uses a parallel sum over the grid, which contains two sums to \
+trace out the path. It would probably be possible to turn this into one big \
+quadruple-sum, which would amost certainly evaluate faster.\
+\>", "Text",
+ CellChangeTimes->{{3.6750759031867905`*^9, 3.67507596990716*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Ic", "[", 
+   RowBox[{"\[Phi]0_", ",", 
+    RowBox[{"H_", "?", "NumericQ"}]}], "]"}], ":=", 
+  RowBox[{"ParallelSum", "[", 
+   RowBox[{
+    RowBox[{"Sin", "[", 
+     RowBox[{"\[Phi]0", "+", 
+      RowBox[{"Sum", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"\[Phi]matrix", "[", "H", "]"}], "[", 
+          RowBox[{"[", 
+           RowBox[{"i", ",", "1"}], "]"}], "]"}], ".", "dx"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "1", ",", "x"}], "}"}]}], "]"}], "+", 
+      RowBox[{"Sum", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"\[Phi]matrix", "[", "H", "]"}], "[", 
+          RowBox[{"[", 
+           RowBox[{"x", ",", "j"}], "]"}], "]"}], ".", "dy"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"j", ",", "1", ",", "y"}], "}"}]}], "]"}]}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"x", ",", "1", ",", "gridsize"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"y", ",", "1", ",", "gridsize"}], "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.6750108554003353`*^9, 3.675010864290874*^9}, {
+  3.67501116046259*^9, 3.675011172018571*^9}, {3.675034735840373*^9, 
+  3.6750347383604574`*^9}, {3.6750732970387726`*^9, 3.675073303486351*^9}, {
+  3.6750735915185814`*^9, 3.6750735934632607`*^9}, {3.675074508715654*^9, 
+  3.675074510887556*^9}, {3.675075501672886*^9, 3.6750755780425353`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Maximize w.r.t. phase to get measured critical current, plot as a function of \
+H\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.675075808050022*^9, 3.6750758284463406`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Imax", "[", 
+   RowBox[{"H_", "?", "NumericQ"}], "]"}], ":=", 
+  RowBox[{"NMaxValue", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Ic", "[", 
+       RowBox[{"\[Phi]0", ",", "H"}], "]"}], ",", 
+      RowBox[{"0", "\[LessEqual]", "\[Phi]0", "\[LessEqual]", 
+       RowBox[{"2", "\[Pi]"}]}]}], "}"}], ",", "\[Phi]0"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Plot", "[", 
+   RowBox[{
+    RowBox[{"Imax", "[", "Happlied", "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"Happlied", ",", 
+      RowBox[{"-", "10"}], ",", "10"}], "}"}], ",", 
+    RowBox[{"PlotPoints", "\[Rule]", "4"}], ",", 
+    RowBox[{"MaxRecursion", "\[Rule]", "4"}]}], 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"By", " ", "trial", " ", "and", " ", "error"}], ",", " ", 
+     RowBox[{
+     "these", " ", "values", " ", "of", " ", "PlotPoints", " ", "and", " ", 
+      "MaxRecursion", " ", "give", " ", "much", " ", "better", " ", "runtime",
+       " ", "than", " ", "default"}], ",", " ", 
+     RowBox[{"and", " ", "good", " ", "enough", " ", "resolution"}]}], "*)"}],
+    "]"}], "//", "AbsoluteTiming"}]}], "Input",
+ CellChangeTimes->{{3.675011192766003*^9, 3.6750112956892138`*^9}, {
+   3.675013759887827*^9, 3.6750137633947325`*^9}, {3.675013812036233*^9, 
+   3.6750138139348583`*^9}, {3.6750346471461554`*^9, 3.67503464811805*^9}, {
+   3.675072830368535*^9, 3.675072833403797*^9}, {3.6750735994726524`*^9, 
+   3.675073604265251*^9}, {3.675074515723404*^9, 3.675074536869624*^9}, {
+   3.6750748275242825`*^9, 3.675074848102795*^9}, {3.675074926259902*^9, 
+   3.6750749438497148`*^9}, {3.6750759730396843`*^9, 3.6750760180842295`*^9}, 
+   3.6750762489942017`*^9, {3.6750770157483544`*^9, 3.6750770178421326`*^9}, {
+   3.6750785128056035`*^9, 3.675078515477347*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"11.34458889999999975373157212743535637856`7.0753886760218325", ",", 
+   GraphicsBox[{{}, {}, 
+     {RGBColor[0.368417, 0.506779, 0.709798], AbsoluteThickness[1.6], Opacity[
+      1.], LineBox[CompressedData["
+1:eJwBEQPu/CFib1JlAgAAADAAAAACAAAA98RNIP//I8DuVk3CvccFQCbuH9/P
+MiPAJI0BgzWJ9D9UF/KdoGUiwODwL1X9Udc/gkDEXHGYIcClUi2Wf4wBQLFp
+lhtCyyDA3p7da72vEEC/JdG0JfwfwEQ1nijaCxlAHHh1MsdhHsA/IHUzp9gg
+QNYcvi0KLRvA6F8yuauTKUAzb2Krq5IZwBys/zxgzi1AkMEGKU34F8Cqwg9Z
+1ukwQO0Tq6buXRbAA26r6+/GMkBKZk8kkMMUwIM6Bt9XdDRAp7jzoTEpE8AK
+hQQN3Og1QAQLmB/TjhHAxrQwgnYcN0DCung66egPwABaBKV/CDhAfF/BNSy0
+DMBMY+/d16c4QD3sGfVlOgnAccR/8Pf5OED+eHK0n8AFwIeNPNnP6zhAvwXL
+c9lGAsBM4vdjvH04QAAlR2Ymmv2/SKWUnI6yN0CCPvjkmab2v3paTA13jzZA
+CbBSxxpm779OV3KF3xs1QA7jtMQBf+G/b38CjDRhM0CQsLgQRr+8v2veoR2g
+ajFA020NgWCe1D8SjieLb4kuQOWDJENJNug/+ShWAkH6KUBwKOEisQ7zP9I2
+FlVWRCVA7g4wpD0C+j9L45q/2IQgQLZ6vxLlegBAuPim9EuxF0D17WZTq/QD
+QKLyWFQCbg1ANGEOlHFuB0DujaDsTjr5P3PUtdQ36ApAQMuZwZqW1T9q6H0f
+tDkOQDgMXXeRQP8/MP4iNZjFEEBO15apnqwKQCwIh1pWbhJA+98S7kvWEUAn
+Eut/FBcUQLLJKNjfQRVAIhxPpdK/FUCK9rZzepIXQB4ms8qQaBdAPoOXM0TJ
+GEAZMBfwThEZQPaPIcb37hhAFDp7FQ26GkByquBOhhMYQA9E3zrLYhxASHuB
+a4lNFkAKTkNgiQseQPuz2R6HuRNABVinhUe0H0AwKdP/DHkQQACxhdWCriBA
+RuecTVJjCUD+tTfo4YIhQFCd8YWQFwFA/Lrp+kBXIkAurRvuA8bwP/q/mw2g
+KyNAAF/3J19VqT/3xE0g//8jQLR/jg823PE/Sh5cUA==
+       "]]}},
+    AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+    Axes->{True, True},
+    AxesLabel->{None, None},
+    AxesOrigin->{0, 0},
+    DisplayFunction->Identity,
+    Frame->{{False, False}, {False, False}},
+    FrameLabel->{{None, None}, {None, None}},
+    FrameTicks->{{Automatic, Automatic}, {Automatic, Automatic}},
+    GridLines->{None, None},
+    GridLinesStyle->Directive[
+      GrayLevel[0.5, 0.4]],
+    Method->{"DefaultBoundaryStyle" -> Automatic, "ScalingFunctions" -> None},
+    PlotRange->{{-10, 10}, {0., 24.976439505761338`}},
+    PlotRangeClipping->True,
+    PlotRangePadding->{{
+       Scaled[0.02], 
+       Scaled[0.02]}, {
+       Scaled[0.05], 
+       Scaled[0.05]}},
+    Ticks->{Automatic, Automatic}]}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.6750744528231077`*^9, 3.675074780143873*^9, 3.6750748914709377`*^9, {
+   3.675074939551194*^9, 3.675074955370429*^9}, {3.675075519773954*^9, 
+   3.6750755674956026`*^9}, 3.6750756785619726`*^9, 3.675076033409593*^9, {
+   3.6750761471112685`*^9, 3.6750761654654226`*^9}, 3.6750762267782116`*^9, 
+   3.6750762636982017`*^9, {3.675077036781187*^9, 3.675077060206337*^9}, 
+   3.6750770989516244`*^9, 3.675077151294975*^9, 3.675077467023162*^9, 
+   3.6750781639857903`*^9, {3.675078502888639*^9, 3.675078555806428*^9}}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{766, 772},
+WindowMargins->{{Automatic, -7}, {Automatic, 0}},
+FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (July 1, 2014)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 109, 1, 49, "Subsection"],
+Cell[692, 25, 259, 5, 49, "Text"],
+Cell[CellGroupData[{
+Cell[976, 34, 115, 1, 39, "Subsubsection"],
+Cell[1094, 37, 2917, 72, 192, "Input"],
+Cell[4014, 111, 737, 23, 92, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4788, 139, 127, 1, 39, "Subsubsection"],
+Cell[4918, 142, 303, 5, 68, "Text"],
+Cell[5224, 149, 1402, 35, 92, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6663, 189, 182, 4, 39, "Subsubsection"],
+Cell[CellGroupData[{
+Cell[6870, 197, 1805, 39, 112, "Input"],
+Cell[8678, 238, 2636, 52, 168, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

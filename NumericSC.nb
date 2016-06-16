@@ -1,0 +1,292 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      9182,        283]
+NotebookOptionsPosition[      8253,        247]
+NotebookOutlinePosition[      8595,        262]
+CellTagsIndexPosition[      8552,        259]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Numeric SC", "Subsection",
+ CellChangeTimes->{{3.6749998272325907`*^9, 3.674999837813054*^9}}],
+
+Cell["\<\
+Trying to do a numerical caluclation of a single-domain ferromagnetic barrier \
+to see if it makes sense, figure out how to store data, etc\
+\>", "Text",
+ CellChangeTimes->{{3.6749998423013496`*^9, 3.6749998830953856`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Data Storage", "Subsubsection",
+ CellChangeTimes->{{3.674999897212989*^9, 3.6749998999267035`*^9}}],
+
+Cell["\<\
+Lets go ahead and start with a 10x10 b matrix, for simplicity. Anything being \
+actually run would have to be larger (probably).
+\
+\>", "Text",
+ CellChangeTimes->{{3.674999904097824*^9, 3.6749999473091764`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Let", " ", "vectors", " ", "have", " ", "the", " ", "form", " ", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{"x", ",", "y", ",", "z"}], ")"}], ".", " ", "Use"}], " ", "row",
+     " ", "vectors", " ", 
+    RowBox[{"(", "cleaner", ")"}]}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"bvector", "=", 
+    RowBox[{"{", 
+     RowBox[{"0", ",", "1", ",", "0"}], "}"}]}], ";", " ", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Start", " ", "with", " ", "magnetization", " ", "in", " ", "same", " ", 
+     "direction", " ", "as", " ", "field"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"bmatrix", "=", 
+    RowBox[{"Table", "[", 
+     RowBox[{"bvector", ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "1", ",", "10"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"j", ",", "1", ",", "10"}], "}"}]}], "]"}]}], ";"}]}]], "Input",
+ CellChangeTimes->{{3.675000001501625*^9, 3.675000021432273*^9}, {
+  3.675000053521763*^9, 3.6750000898373766`*^9}, {3.6750001406656404`*^9, 
+  3.6750002526646457`*^9}, {3.675004262866819*^9, 3.675004263486265*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Phi]matrix", "=", 
+    RowBox[{"Table", "[", 
+     RowBox[{
+      RowBox[{"Cross", "[", 
+       RowBox[{"bvector", ",", 
+        RowBox[{"{", 
+         RowBox[{"0", ",", "0", ",", "1"}], "}"}]}], "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "1", ",", "10"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"j", ",", "1", ",", "10"}], "}"}]}], "]"}]}], ";"}], " ", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"Wouldn", "'"}], "t", " ", "be", " ", "able", " ", "to", " ", 
+      "do", " ", "it", " ", "this", " ", "way", " ", "for", " ", "non"}], "-", 
+     RowBox[{"constant", " ", "b"}]}], ",", " ", 
+    RowBox[{"but", " ", "good", " ", "enough", " ", "for", " ", "now"}]}], 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"dx", "=", 
+   RowBox[{"{", 
+    RowBox[{"1", ",", "0", ",", "0"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"dy", "=", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "1", ",", "0"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"dz", "=", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0", ",", "1"}], "}"}]}], ";", " ", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"Shouldn", "'"}], "t", " ", "actually", " ", "need", " ", 
+    "this"}], "*)"}], "\[IndentingNewLine]"}]}], "Input",
+ CellChangeTimes->{{3.6750003129588175`*^9, 3.6750004561698875`*^9}, 
+   3.6750004926679735`*^9, {3.6750027012423463`*^9, 3.675002743812769*^9}, 
+   3.6750028793936543`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Perform Sum to get ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["I", "c"], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " as a function of phase at (1,1)"
+}], "Subsubsection",
+ CellChangeTimes->{{3.675000558177991*^9, 3.675000582708905*^9}}],
+
+Cell[TextData[{
+ "Let A, ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["J", "co"], ","}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " dx, dy all be 1 (arb units)."
+}], "Text",
+ CellChangeTimes->{{3.6750004967529216`*^9, 3.675000539195898*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Ic", "[", "\[Phi]0_", "]"}], ":=", 
+  RowBox[{"Sum", "[", 
+   RowBox[{
+    RowBox[{"Sin", "[", 
+     RowBox[{"\[Phi]0", "+", 
+      RowBox[{"Sum", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"\[Phi]matrix", "[", 
+          RowBox[{"[", 
+           RowBox[{"i", ",", "1"}], "]"}], "]"}], ".", "dx"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "1", ",", "x"}], "}"}]}], "]"}], "+", 
+      RowBox[{"Sum", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"\[Phi]matrix", "[", 
+          RowBox[{"[", 
+           RowBox[{"x", ",", "j"}], "]"}], "]"}], ".", "dy"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"j", ",", "1", ",", "y"}], "}"}]}], "]"}]}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"x", ",", "1", ",", "10"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"y", ",", "1", ",", "10"}], "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.6750007571451254`*^9, 3.6750007817312417`*^9}, {
+   3.675000866387721*^9, 3.6750008679938602`*^9}, {3.675000956059413*^9, 
+   3.6750010465556307`*^9}, 3.6750019892644014`*^9, {3.675002073525831*^9, 
+   3.6750021353977365`*^9}, {3.675002177075444*^9, 3.675002223397418*^9}, {
+   3.6750026958806562`*^9, 3.6750026973167048`*^9}, {3.6750027530601892`*^9, 
+   3.675002753216446*^9}, {3.6750028019272213`*^9, 3.675002848988927*^9}, {
+   3.675003135753439*^9, 3.675003145289229*^9}, {3.6750042908967705`*^9, 
+   3.675004302068737*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Plot", "[", 
+  RowBox[{
+   RowBox[{"NMaximize", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Ic", "[", "\[Phi]0", "]"}], ",", 
+       RowBox[{"0", "\[LessEqual]", "\[Phi]0", "\[LessEqual]", 
+        RowBox[{"2", "\[Pi]"}]}]}], "}"}], ",", "\[Phi]0"}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"H", ",", 
+     RowBox[{"-", "3"}], ",", "3"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.6750010100753574`*^9, 3.6750010132899866`*^9}, {
+  3.6750028604784737`*^9, 3.675002861197328*^9}, {3.675002898866503*^9, 
+  3.6750029067371264`*^9}, {3.6750043065485697`*^9, 3.675004324142393*^9}}],
+
+Cell[BoxData[
+ GraphicsBox[{},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->{True, True},
+  AxesLabel->{None, None},
+  AxesOrigin->{0, 0},
+  DisplayFunction->Identity,
+  Frame->{{False, False}, {False, False}},
+  FrameLabel->{{None, None}, {None, None}},
+  FrameTicks->{{Automatic, Automatic}, {Automatic, Automatic}},
+  GridLines->{None, None},
+  GridLinesStyle->Directive[
+    GrayLevel[0.5, 0.4]],
+  Method->{"DefaultBoundaryStyle" -> Automatic, "ScalingFunctions" -> None},
+  PlotRange->{{-3, 3}, {0., 0.}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{{
+     Scaled[0.02], 
+     Scaled[0.02]}, {
+     Scaled[0.05], 
+     Scaled[0.05]}},
+  Ticks->{Automatic, Automatic}]], "Output",
+ CellChangeTimes->{{3.6750043311545415`*^9, 3.6750043382428308`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Imax", "=", 
+  RowBox[{"NMaximize", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Ic", "[", "\[Phi]0", "]"}], ",", 
+      RowBox[{"0", "\[LessEqual]", "\[Phi]0", "\[LessEqual]", 
+       RowBox[{"2", "\[Pi]"}]}]}], "}"}], ",", "\[Phi]0"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.6750029085863085`*^9, 3.6750029162626457`*^9}, {
+  3.6750030342747154`*^9, 3.6750030736820774`*^9}, {3.67500427431045*^9, 
+  3.675004275730173*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"20.001526774208685`", ",", 
+   RowBox[{"{", 
+    RowBox[{"\[Phi]0", "\[Rule]", "5.495574250713287`"}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.6750030777083626`*^9, 3.6750043383522243`*^9}]
+}, Open  ]],
+
+Cell["Need to work out how to incoport", "Text",
+ CellChangeTimes->{{3.675004169949276*^9, 3.675004217901193*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{767, 697},
+WindowMargins->{{Automatic, 376}, {24, Automatic}},
+FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (July 1, 2014)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 100, 1, 49, "Subsection"],
+Cell[683, 25, 233, 4, 49, "Text"],
+Cell[CellGroupData[{
+Cell[941, 33, 105, 1, 39, "Subsubsection"],
+Cell[1049, 36, 221, 5, 68, "Text"],
+Cell[1273, 43, 1105, 26, 72, "Input"],
+Cell[2381, 71, 1500, 41, 152, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3918, 117, 268, 8, 39, "Subsubsection"],
+Cell[4189, 127, 267, 9, 30, "Text"],
+Cell[4459, 138, 1440, 34, 72, "Input"],
+Cell[CellGroupData[{
+Cell[5924, 176, 635, 15, 31, "Input"],
+Cell[6562, 193, 783, 22, 238, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7382, 220, 471, 11, 31, InheritFromParent],
+Cell[7856, 233, 240, 6, 31, "Output"]
+}, Open  ]],
+Cell[8111, 242, 114, 1, 30, "Text"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
